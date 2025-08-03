@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTL Calculator - Hekano Property | Professional Buy-To-Let Investment Analysis</title>
+    <meta name="description" content="Free BTL calculator showing real property investment returns. Calculate gross yield, net yield, cash flow and stress test your buy-to-let investments.">
+    <meta name="keywords" content="BTL calculator, buy to let calculator, property investment, rental yield calculator, UK property">
+    
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="Professional BTL Calculator - Hekano Property">
+    <meta property="og:description" content="Calculate real property investment returns with our professional BTL calculator. Includes all costs and stress testing.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourusername.github.io/btl-calculator">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .header .brand {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 600px;
+        }
+        
+        .inputs-section {
+            padding: 40px 30px;
+            background: #f8fafc;
+            border-right: 1px solid #e2e8f0;
+        }
+        
+        .results-section {
+            padding: 40px 30px;
+            background: white;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-group {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .input-group h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #4a5568;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 120px;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .input-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .input-row label {
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 0.95rem;
+        }
+        
+        .input-row input {
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: right;
+            transition: all 0.2s;
+            background: #f7fafc;
+        }
+        
+        .input-row input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .result-card.profit {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+        
+        .result-card.loss {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        }
+        
+        .result-card h4 {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .result-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .metrics-table {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .metrics-table h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-row .label {
+            font-weight: 500;
+            color: #4a5568;
+        }
+        
+        .metric-row .value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .breakdown {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .breakdown h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+        
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 0.95rem;
+        }
+        
+        .breakdown-row.income {
+            color: #38a169;
+        }
+        
+        .breakdown-row.expense {
+            color: #e53e3e;
+        }
+        
+        .breakdown-row.total {
+            border-top: 2px solid #e2e8f0;
+            margin-top: 10px;
+            padding-top: 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .cta-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .cta-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .warning {
+            background: #fed7d7;
+            border: 1px solid #feb2b2;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .good { color: #38a169; }
+        .warning-color { color: #d69e2e; }
+        .bad { color: #e53e3e; }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .inputs-section, .results-section {
+                padding: 30px 20px;
+            }
+            
+            .input-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .input-row input {
+                text-align: left;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🏠 BTL Calculator</h1>
+            <div class="subtitle">Professional Buy-To-Let Investment Analysis</div>
+            <div class="brand">HEKANO PROPERTY - SMART SOURCING</div>
+        </header>
+        
+        <div class="main-content">
+            <div class="inputs-section">
+                <h2 class="section-title">📊 Investment Details</h2>
+                
+                <div class="input-group">
+                    <h3>Property Information</h3>
+                    <div class="input-row">
+                        <label>Purchase Price (£)</label>
+                        <input type="number" id="purchasePrice" value="150000">
+                    </div>
+                    <div class="input-row">
+                        <label>Deposit (£)</label>
+                        <input type="number" id="deposit" value="30000">
+                    </div>
+                    <div class="input-row">
+                        <label>Monthly Rent (£)</label>
+                        <input type="number" id="monthlyRent" value="1000">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <h3>Financing</h3>
+                    <div class="input-row">
+                        <label>Mortgage Rate (%)</label>
+                        <input type="number" id="mortgageRate" value="5.5" step="0.1">
+                    </div>
+                    <div class="input-row">
+                        <label>Mortgage Term (years)</label>
+                        <input type="number" id="mortgageTerm" value="25">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <h3>Monthly Costs</h3>
+                    <div class="input-row">
+                        <label>Management Fee (%)</label>
+                        <input type="number" id="managementFee" value="10" step="0.1">
+                    </div>
+                    <div class="input-row">
+                        <label>Insurance (£/month)</label>
+                        <input type="number" id="insurance" value="60">
+                    </div>
+                    <div class="input-row">
+                        <label>Maintenance Reserve (£/month)</label>
+                        <input type="number" id="maintenance" value="125">
+                    </div>
+                    <div class="input-row">
+                        <label>Void Allowance (%)</label>
+                        <input type="number" id="voidAllowance" value="8.33" step="0.1">
+                    </div>
+                    <div class="input-row">
+                        <label>Other Costs (£/month)</label>
+                        <input type="number" id="otherCosts" value="50">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-section">
+                <h2 class="section-title">📈 Investment Analysis</h2>
+                
+                <div class="warning">
+                    ⚠️ This calculator provides estimates only. Always seek professional financial advice before making investment decisions.
+                </div>
+                
+                <div class="results-grid">
+                    <div class="result-card" id="monthlyCard">
+                        <h4>Monthly Cash Flow</h4>
+                        <div class="value" id="monthlyProfit">£0</div>
+                    </div>
+                    <div class="result-card" id="annualCard">
+                        <h4>Annual Profit</h4>
+                        <div class="value" id="annualProfit">£0</div>
+                    </div>
+                </div>
+                
+                <div class="metrics-table">
+                    <h3>Key Metrics</h3>
+                    <div class="metric-row">
+                        <span class="label">Gross Yield</span>
+                        <span class="value" id="grossYield">0.00%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="label">Net Yield</span>
+                        <span class="value" id="netYield">0.00%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="label">Return on Cash</span>
+                        <span class="value" id="returnOnCash">0.00%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="label">Loan to Value</span>
+                        <span class="value" id="ltv">0.00%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="label">Break-Even Rent</span>
+                        <span class="value" id="breakEvenRent">£0</span>
+                    </div>
+                </div>
+                
+                <div class="breakdown">
+                    <h3>Monthly Breakdown</h3>
+                    <div class="breakdown-row income">
+                        <span>Monthly Rent</span>
+                        <span id="rentIncome">+£1,000</span>
+                    </div>
+                    <div class="breakdown-row expense">
+                        <span>Mortgage Payment</span>
+                        <span id="mortgagePayment">-£0</span>
+                    </div>
+                    <div class="breakdown-row expense">
+                        <span>Management Fee</span>
+                        <span id="managementCost">-£0</span>
+                    </div>
+                    <div class="breakdown-row expense">
+                        <span>Insurance</span>
+                        <span id="insuranceCost">-£60</span>
+                    </div>
+                    <div class="breakdown-row expense">
+                        <span>Maintenance Reserve</span>
+                        <span id="maintenanceCost">-£125</span>
+                    </div>
+                    <div class="breakdown-row expense">
+                        <span>Void Allowance</span>
+                        <span id="voidCost">-£0</span>
+                    </div>
+                    <div class="breakdown-row expense">
+                        <span>Other Costs</span>
+                        <span id="otherCostsDisplay">-£50</span>
+                    </div>
+                    <div class="breakdown-row total" id="totalRow">
+                        <span>Net Monthly Cash Flow</span>
+                        <span id="netCashFlow">£0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h3>Need Help Finding Quality BTL Properties?</h3>
+            <p>Stop wasting time on Rightmove. Get access to off-market deals that actually make sense.<br>Professional property sourcing with realistic returns - no hype, just facts.</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <span>hello@hekanoproperty.com</span>
+                </div>
+                <div class="contact-item">
+                    <span>🌐</span>
+                    <span>www.hekanoproperty.com</span>
+                </div>
+                <div class="contact-item">
+                    <span>💼</span>
+                    <span>LinkedIn: Hekano Property</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get all input elements
+        const inputs = {
+            purchasePrice: document.getElementById('purchasePrice'),
+            deposit: document.getElementById('deposit'),
+            monthlyRent: document.getElementById('monthlyRent'),
+            mortgageRate: document.getElementById('mortgageRate'),
+            mortgageTerm: document.getElementById('mortgageTerm'),
+            managementFee: document.getElementById('managementFee'),
+            insurance: document.getElementById('insurance'),
+            maintenance: document.getElementById('maintenance'),
+            voidAllowance: document.getElementById('voidAllowance'),
+            otherCosts: document.getElementById('otherCosts')
+        };
+
+        // Get all result elements
+        const results = {
+            monthlyProfit: document.getElementById('monthlyProfit'),
+            annualProfit: document.getElementById('annualProfit'),
+            grossYield: document.getElementById('grossYield'),
+            netYield: document.getElementById('netYield'),
+            returnOnCash: document.getElementById('returnOnCash'),
+            ltv: document.getElementById('ltv'),
+            breakEvenRent: document.getElementById('breakEvenRent'),
+            rentIncome: document.getElementById('rentIncome'),
+            mortgagePayment: document.getElementById('mortgagePayment'),
+            managementCost: document.getElementById('managementCost'),
+            insuranceCost: document.getElementById('insuranceCost'),
+            maintenanceCost: document.getElementById('maintenanceCost'),
+            voidCost: document.getElementById('voidCost'),
+            otherCostsDisplay: document.getElementById('otherCostsDisplay'),
+            netCashFlow: document.getElementById('netCashFlow'),
+            monthlyCard: document.getElementById('monthlyCard'),
+            annualCard: document.getElementById('annualCard'),
+            totalRow: document.getElementById('totalRow')
+        };
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-GB', {
+                style: 'currency',
+                currency: 'GBP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function formatPercentage(percentage) {
+            return `${percentage.toFixed(2)}%`;
+        }
+
+        function calculateMortgagePayment(principal, rate, years) {
+            const monthlyRate = rate / 100 / 12;
+            const numPayments = years * 12;
+            
+            if (monthlyRate === 0) return principal / numPayments;
+            
+            return principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+                   (Math.pow(1 + monthlyRate, numPayments) - 1);
+        }
+
+        function updateCalculations() {
+            // Get input values
+            const purchasePrice = parseFloat(inputs.purchasePrice.value) || 0;
+            const deposit = parseFloat(inputs.deposit.value) || 0;
+            const monthlyRent = parseFloat(inputs.monthlyRent.value) || 0;
+            const mortgageRate = parseFloat(inputs.mortgageRate.value) || 0;
+            const mortgageTerm = parseFloat(inputs.mortgageTerm.value) || 0;
+            const managementFee = parseFloat(inputs.managementFee.value) || 0;
+            const insurance = parseFloat(inputs.insurance.value) || 0;
+            const maintenance = parseFloat(inputs.maintenance.value) || 0;
+            const voidAllowance = parseFloat(inputs.voidAllowance.value) || 0;
+            const otherCosts = parseFloat(inputs.otherCosts.value) || 0;
+
+            // Calculate derived values
+            const loanAmount = purchasePrice - deposit;
+            const monthlyMortgage = calculateMortgagePayment(loanAmount, mortgageRate, mortgageTerm);
+            const managementCost = (monthlyRent * managementFee) / 100;
+            const voidCost = (monthlyRent * voidAllowance) / 100;
+
+            // Calculate monthly profit/loss
+            const totalMonthlyCosts = monthlyMortgage + managementCost + insurance + maintenance + voidCost + otherCosts;
+            const monthlyProfit = monthlyRent - totalMonthlyCosts;
+            const annualProfit = monthlyProfit * 12;
+
+            // Calculate yields
+            const grossYield = purchasePrice > 0 ? ((monthlyRent * 12) / purchasePrice) * 100 : 0;
+            const netYield = purchasePrice > 0 ? (annualProfit / purchasePrice) * 100 : 0;
+            const returnOnCash = deposit > 0 ? (annualProfit / deposit) * 100 : 0;
+            const ltv = purchasePrice > 0 ? (loanAmount / purchasePrice) * 100 : 0;
+
+            // Update display
+            results.monthlyProfit.textContent = formatCurrency(monthlyProfit);
+            results.annualProfit.textContent = formatCurrency(annualProfit);
+            results.grossYield.textContent = formatPercentage(grossYield);
+            results.netYield.textContent = formatPercentage(netYield);
+            results.returnOnCash.textContent = formatPercentage(returnOnCash);
+            results.ltv.textContent = formatPercentage(ltv);
+            results.breakEvenRent.textContent = formatCurrency(totalMonthlyCosts);
+
+            // Update breakdown
+            results.rentIncome.textContent = '+' + formatCurrency(monthlyRent);
+            results.mortgagePayment.textContent = '-' + formatCurrency(monthlyMortgage);
+            results.managementCost.textContent = '-' + formatCurrency(managementCost);
+            results.insuranceCost.textContent = '-' + formatCurrency(insurance);
+            results.maintenanceCost.textContent = '-' + formatCurrency(maintenance);
+            results.voidCost.textContent = '-' + formatCurrency(voidCost);
+            results.otherCostsDisplay.textContent = '-' + formatCurrency(otherCosts);
+            results.netCashFlow.textContent = formatCurrency(monthlyProfit);
+
+            // Update card colors based on profitability
+            const monthlyCard = results.monthlyCard;
+            const annualCard = results.annualCard;
+            const totalRow = results.totalRow;
+
+            // Reset classes
+            monthlyCard.className = 'result-card';
+            annualCard.className = 'result-card';
+
+            if (monthlyProfit > 200) {
+                monthlyCard.classList.add('profit');
+                annualCard.classList.add('profit');
+                totalRow.style.color = '#38a169';
+            } else if (monthlyProfit < 0) {
+                monthlyCard.classList.add('loss');
+                annualCard.classList.add('loss');
+                totalRow.style.color = '#e53e3e';
+            } else {
+                totalRow.style.color = '#d69e2e';
+            }
+
+            // Color code yields
+            const yieldElements = [results.grossYield, results.netYield, results.returnOnCash];
+            const yieldValues = [grossYield, netYield, returnOnCash];
+
+            yieldElements.forEach((element, index) => {
+                const value = yieldValues[index];
+                if (value >= 6) {
+                    element.className = 'value good';
+                } else if (value >= 4) {
+                    element.className = 'value warning-color';
+                } else {
+                    element.className = 'value bad';
+                }
+            });
+        }
+
+        // Add event listeners to all inputs
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', updateCalculations);
+        });
+
+        // Initial calculation
+        updateCalculations();
+
+        // Add Google Analytics tracking (replace with your tracking ID)
+        /*
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        
+        ga('create', 'UA-XXXXXXX-X', 'auto');
+        ga('send', 'pageview');
+        */
+    </script>
+</body>
+</html>
