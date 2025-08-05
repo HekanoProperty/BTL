@@ -556,13 +556,17 @@
         }
 
         function calculateMortgagePayment(principal, rate, years) {
+            if (principal <= 0 || years <= 0) return 0;
+            
             const monthlyRate = rate / 100 / 12;
             const numPayments = years * 12;
             
             if (monthlyRate === 0) return principal / numPayments;
             
-            return principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+            const monthlyPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
                    (Math.pow(1 + monthlyRate, numPayments) - 1);
+            
+            return monthlyPayment;
         }
 
         function updateCalculations() {
