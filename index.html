@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BTL Calculator - Hekano Property | Professional Buy-To-Let Investment Analysis</title>
-    <meta name="description" content="Free BTL calculator showing real property investment returns. Calculate gross yield, net yield, cash flow and stress test your buy-to-let investments.">
-    <meta name="keywords" content="BTL calculator, buy to let calculator, property investment, rental yield calculator, UK property">
+    <title>BTL & Stamp Duty Calculator - Hekano Property | Professional Investment Analysis</title>
+    <meta name="description" content="Free BTL calculator and stamp duty calculator with 2025 rates. Calculate property investment returns and stamp duty costs for buy-to-let investments.">
+    <meta name="keywords" content="BTL calculator, stamp duty calculator, buy to let calculator, property investment, rental yield calculator, UK property">
     
     <!-- Open Graph for social sharing -->
-    <meta property="og:title" content="Professional BTL Calculator - Hekano Property">
-    <meta property="og:description" content="Calculate real property investment returns with our professional BTL calculator. Includes all costs and stress testing.">
+    <meta property="og:title" content="Professional BTL & Stamp Duty Calculator - Hekano Property">
+    <meta property="og:description" content="Calculate real property investment returns and stamp duty costs with our professional calculators. Includes all costs and stress testing.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yourusername.github.io/btl-calculator">
     
@@ -65,6 +65,55 @@
             font-weight: 600;
             font-size: 0.9rem;
             border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .tab-container {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        
+        .tab-nav li {
+            margin: 0;
+        }
+        
+        .tab-nav button {
+            background: none;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tab-nav button:hover {
+            color: #b38f4b;
+            background: rgba(179, 143, 75, 0.1);
+        }
+        
+        .tab-nav button.active {
+            color: #b38f4b;
+            border-bottom-color: #b38f4b;
+            background: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
         }
         
         .main-content {
@@ -130,7 +179,7 @@
             font-size: 0.95rem;
         }
         
-        .input-row input {
+        .input-row input, .input-row select {
             padding: 12px 15px;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
@@ -141,7 +190,11 @@
             background: #f7fafc;
         }
         
-        .input-row input:focus {
+        .input-row select {
+            text-align: left;
+        }
+        
+        .input-row input:focus, .input-row select:focus {
             outline: none;
             border-color: #b38f4b;
             background: white;
@@ -169,6 +222,10 @@
         
         .result-card.loss {
             background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        }
+        
+        .result-card.stamp-duty {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
         .result-card h4 {
@@ -303,9 +360,55 @@
             font-size: 0.9rem;
         }
         
+        .info-box {
+            background: #e6f3ff;
+            border: 1px solid #b3d9ff;
+            color: #0066cc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
         .good { color: #38a169; }
         .warning-color { color: #d69e2e; }
         .bad { color: #e53e3e; }
+        
+        .stamp-duty-bands {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .stamp-duty-bands h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+        
+        .band-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+        
+        .band-row:last-child {
+            border-bottom: none;
+        }
+        
+        .band-row.header {
+            font-weight: 700;
+            background: #f7fafc;
+            padding: 15px 10px;
+            border-radius: 8px;
+            border-bottom: 2px solid #b38f4b;
+        }
         
         @media (max-width: 768px) {
             .main-content {
@@ -325,7 +428,7 @@
                 gap: 8px;
             }
             
-            .input-row input {
+            .input-row input, .input-row select {
                 text-align: left;
             }
             
@@ -337,149 +440,246 @@
                 flex-direction: column;
                 gap: 15px;
             }
+            
+            .tab-nav {
+                flex-direction: column;
+            }
+            
+            .tab-nav button {
+                padding: 15px 20px;
+            }
+            
+            .band-row {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>🏠 BTL Calculator</h1>
-            <div class="subtitle">Professional Buy-To-Let Investment Analysis</div>
+            <h1>🏠 Property Investment Calculator</h1>
+            <div class="subtitle">Professional BTL Analysis & Stamp Duty Calculator</div>
             <div class="brand">HEKANO PROPERTY - SMART SOURCING</div>
         </header>
         
-        <div class="main-content">
-            <div class="inputs-section">
-                <h2 class="section-title">📊 Investment Details</h2>
-                
-                <div class="input-group">
-                    <h3>Property Information</h3>
-                    <div class="input-row">
-                        <label>Purchase Price (£)</label>
-                        <input type="number" id="purchasePrice" value="150000">
+        <div class="tab-container">
+            <ul class="tab-nav">
+                <li><button class="tab-button active" data-tab="btl">📊 BTL Calculator</button></li>
+                <li><button class="tab-button" data-tab="stamp-duty">📋 Stamp Duty Calculator</button></li>
+            </ul>
+        </div>
+        
+        <!-- BTL Calculator Tab -->
+        <div id="btl" class="tab-content active">
+            <div class="main-content">
+                <div class="inputs-section">
+                    <h2 class="section-title">📊 Investment Details</h2>
+                    
+                    <div class="input-group">
+                        <h3>Property Information</h3>
+                        <div class="input-row">
+                            <label>Purchase Price (£)</label>
+                            <input type="number" id="purchasePrice" value="150000">
+                        </div>
+                        <div class="input-row">
+                            <label>Deposit (£)</label>
+                            <input type="number" id="deposit" value="30000">
+                        </div>
+                        <div class="input-row">
+                            <label>Monthly Rent (£)</label>
+                            <input type="number" id="monthlyRent" value="1000">
+                        </div>
                     </div>
-                    <div class="input-row">
-                        <label>Deposit (£)</label>
-                        <input type="number" id="deposit" value="30000">
+                    
+                    <div class="input-group">
+                        <h3>Financing</h3>
+                        <div class="input-row">
+                            <label>Mortgage Rate (%)</label>
+                            <input type="number" id="mortgageRate" value="5.5" step="0.1">
+                        </div>
+                        <div class="input-row">
+                            <label>Mortgage Term (years)</label>
+                            <input type="number" id="mortgageTerm" value="25">
+                        </div>
                     </div>
-                    <div class="input-row">
-                        <label>Monthly Rent (£)</label>
-                        <input type="number" id="monthlyRent" value="1000">
+                    
+                    <div class="input-group">
+                        <h3>Monthly Costs</h3>
+                        <div class="input-row">
+                            <label>Management Fee (%)</label>
+                            <input type="number" id="managementFee" value="10" step="0.1">
+                        </div>
+                        <div class="input-row">
+                            <label>Insurance (£/month)</label>
+                            <input type="number" id="insurance" value="60">
+                        </div>
+                        <div class="input-row">
+                            <label>Maintenance Reserve (£/month)</label>
+                            <input type="number" id="maintenance" value="125">
+                        </div>
+                        <div class="input-row">
+                            <label>Void Allowance (%)</label>
+                            <input type="number" id="voidAllowance" value="8.33" step="0.1">
+                        </div>
+                        <div class="input-row">
+                            <label>Other Costs (£/month)</label>
+                            <input type="number" id="otherCosts" value="50">
+                        </div>
                     </div>
                 </div>
                 
-                <div class="input-group">
-                    <h3>Financing</h3>
-                    <div class="input-row">
-                        <label>Mortgage Rate (%)</label>
-                        <input type="number" id="mortgageRate" value="5.5" step="0.1">
+                <div class="results-section">
+                    <h2 class="section-title">📈 Investment Analysis</h2>
+                    
+                    <div class="warning">
+                        ⚠️ This calculator provides estimates only. Always seek professional financial advice before making investment decisions.
                     </div>
-                    <div class="input-row">
-                        <label>Mortgage Term (years)</label>
-                        <input type="number" id="mortgageTerm" value="25">
+                    
+                    <div class="results-grid">
+                        <div class="result-card" id="monthlyCard">
+                            <h4>Monthly Cash Flow</h4>
+                            <div class="value" id="monthlyProfit">£0</div>
+                        </div>
+                        <div class="result-card" id="annualCard">
+                            <h4>Annual Profit</h4>
+                            <div class="value" id="annualProfit">£0</div>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="input-group">
-                    <h3>Monthly Costs</h3>
-                    <div class="input-row">
-                        <label>Management Fee (%)</label>
-                        <input type="number" id="managementFee" value="10" step="0.1">
+                    
+                    <div class="metrics-table">
+                        <h3>Key Metrics</h3>
+                        <div class="metric-row">
+                            <span class="label">Gross Yield</span>
+                            <span class="value" id="grossYield">0.00%</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="label">Net Yield</span>
+                            <span class="value" id="netYield">0.00%</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="label">Return on Cash</span>
+                            <span class="value" id="returnOnCash">0.00%</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="label">Loan to Value</span>
+                            <span class="value" id="ltv">0.00%</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="label">Break-Even Rent</span>
+                            <span class="value" id="breakEvenRent">£0</span>
+                        </div>
                     </div>
-                    <div class="input-row">
-                        <label>Insurance (£/month)</label>
-                        <input type="number" id="insurance" value="60">
-                    </div>
-                    <div class="input-row">
-                        <label>Maintenance Reserve (£/month)</label>
-                        <input type="number" id="maintenance" value="125">
-                    </div>
-                    <div class="input-row">
-                        <label>Void Allowance (%)</label>
-                        <input type="number" id="voidAllowance" value="8.33" step="0.1">
-                    </div>
-                    <div class="input-row">
-                        <label>Other Costs (£/month)</label>
-                        <input type="number" id="otherCosts" value="50">
+                    
+                    <div class="breakdown">
+                        <h3>Monthly Breakdown</h3>
+                        <div class="breakdown-row income">
+                            <span>Monthly Rent</span>
+                            <span id="rentIncome">+£1,000</span>
+                        </div>
+                        <div class="breakdown-row expense">
+                            <span>Mortgage Payment</span>
+                            <span id="mortgagePayment">-£0</span>
+                        </div>
+                        <div class="breakdown-row expense">
+                            <span>Management Fee</span>
+                            <span id="managementCost">-£0</span>
+                        </div>
+                        <div class="breakdown-row expense">
+                            <span>Insurance</span>
+                            <span id="insuranceCost">-£60</span>
+                        </div>
+                        <div class="breakdown-row expense">
+                            <span>Maintenance Reserve</span>
+                            <span id="maintenanceCost">-£125</span>
+                        </div>
+                        <div class="breakdown-row expense">
+                            <span>Void Allowance</span>
+                            <span id="voidCost">-£0</span>
+                        </div>
+                        <div class="breakdown-row expense">
+                            <span>Other Costs</span>
+                            <span id="otherCostsDisplay">-£50</span>
+                        </div>
+                        <div class="breakdown-row total" id="totalRow">
+                            <span>Net Monthly Cash Flow</span>
+                            <span id="netCashFlow">£0</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="results-section">
-                <h2 class="section-title">📈 Investment Analysis</h2>
-                
-                <div class="warning">
-                    ⚠️ This calculator provides estimates only. Always seek professional financial advice before making investment decisions.
-                </div>
-                
-                <div class="results-grid">
-                    <div class="result-card" id="monthlyCard">
-                        <h4>Monthly Cash Flow</h4>
-                        <div class="value" id="monthlyProfit">£0</div>
+        </div>
+        
+        <!-- Stamp Duty Calculator Tab -->
+        <div id="stamp-duty" class="tab-content">
+            <div class="main-content">
+                <div class="inputs-section">
+                    <h2 class="section-title">📋 Stamp Duty Details</h2>
+                    
+                    <div class="input-group">
+                        <h3>Property Information</h3>
+                        <div class="input-row">
+                            <label>Property Price (£)</label>
+                            <input type="number" id="stampDutyPrice" value="300000">
+                        </div>
+                        <div class="input-row">
+                            <label>Property Type</label>
+                            <select id="propertyType">
+                                <option value="main">Main Residence</option>
+                                <option value="additional">Additional Property / BTL</option>
+                                <option value="first-time">First-Time Buyer</option>
+                            </select>
+                        </div>
+                        <div class="input-row">
+                            <label>Buyer Status</label>
+                            <select id="buyerStatus">
+                                <option value="uk-resident">UK Resident</option>
+                                <option value="non-uk-resident">Non-UK Resident</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="result-card" id="annualCard">
-                        <h4>Annual Profit</h4>
-                        <div class="value" id="annualProfit">£0</div>
-                    </div>
-                </div>
-                
-                <div class="metrics-table">
-                    <h3>Key Metrics</h3>
-                    <div class="metric-row">
-                        <span class="label">Gross Yield</span>
-                        <span class="value" id="grossYield">0.00%</span>
-                    </div>
-                    <div class="metric-row">
-                        <span class="label">Net Yield</span>
-                        <span class="value" id="netYield">0.00%</span>
-                    </div>
-                    <div class="metric-row">
-                        <span class="label">Return on Cash</span>
-                        <span class="value" id="returnOnCash">0.00%</span>
-                    </div>
-                    <div class="metric-row">
-                        <span class="label">Loan to Value</span>
-                        <span class="value" id="ltv">0.00%</span>
-                    </div>
-                    <div class="metric-row">
-                        <span class="label">Break-Even Rent</span>
-                        <span class="value" id="breakEvenRent">£0</span>
+                    
+                    <div class="info-box">
+                        ℹ️ <strong>Updated April 2025:</strong> Additional property surcharge increased to 5% (was 3%). First-time buyer relief threshold reduced to £300,000 (was £425,000).
                     </div>
                 </div>
                 
-                <div class="breakdown">
-                    <h3>Monthly Breakdown</h3>
-                    <div class="breakdown-row income">
-                        <span>Monthly Rent</span>
-                        <span id="rentIncome">+£1,000</span>
+                <div class="results-section">
+                    <h2 class="section-title">💰 Stamp Duty Calculation</h2>
+                    
+                    <div class="warning">
+                        ⚠️ This calculator applies to England & Northern Ireland only. Scotland and Wales have different tax systems. Always consult a solicitor for complex transactions.
                     </div>
-                    <div class="breakdown-row expense">
-                        <span>Mortgage Payment</span>
-                        <span id="mortgagePayment">-£0</span>
+                    
+                    <div class="results-grid">
+                        <div class="result-card stamp-duty">
+                            <h4>Total Stamp Duty</h4>
+                            <div class="value" id="totalStampDuty">£0</div>
+                        </div>
+                        <div class="result-card stamp-duty">
+                            <h4>Effective Rate</h4>
+                            <div class="value" id="effectiveRate">0.00%</div>
+                        </div>
                     </div>
-                    <div class="breakdown-row expense">
-                        <span>Management Fee</span>
-                        <span id="managementCost">-£0</span>
+                    
+                    <div class="stamp-duty-bands">
+                        <h3>Rate Breakdown</h3>
+                        <div class="band-row header">
+                            <span>Property Value Band</span>
+                            <span>Rate</span>
+                            <span>Tax Due</span>
+                        </div>
+                        <div id="stampDutyBreakdown">
+                            <!-- Breakdown will be populated by JavaScript -->
+                        </div>
                     </div>
-                    <div class="breakdown-row expense">
-                        <span>Insurance</span>
-                        <span id="insuranceCost">-£60</span>
-                    </div>
-                    <div class="breakdown-row expense">
-                        <span>Maintenance Reserve</span>
-                        <span id="maintenanceCost">-£125</span>
-                    </div>
-                    <div class="breakdown-row expense">
-                        <span>Void Allowance</span>
-                        <span id="voidCost">-£0</span>
-                    </div>
-                    <div class="breakdown-row expense">
-                        <span>Other Costs</span>
-                        <span id="otherCostsDisplay">-£50</span>
-                    </div>
-                    <div class="breakdown-row total" id="totalRow">
-                        <span>Net Monthly Cash Flow</span>
-                        <span id="netCashFlow">£0</span>
+                    
+                    <div class="metrics-table">
+                        <h3 id="rateTableTitle">Current Stamp Duty Rates</h3>
+                        <div id="stampDutyRates">
+                            <!-- Rates will be populated by JavaScript -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -506,7 +706,20 @@
     </div>
 
     <script>
-        // Get all input elements
+        // Tab switching functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all tabs and buttons
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                document.getElementById(button.getAttribute('data-tab')).classList.add('active');
+            });
+        });
+
+        // BTL Calculator functionality
         const inputs = {
             purchasePrice: document.getElementById('purchasePrice'),
             deposit: document.getElementById('deposit'),
@@ -520,7 +733,6 @@
             otherCosts: document.getElementById('otherCosts')
         };
 
-        // Get all result elements
         const results = {
             monthlyProfit: document.getElementById('monthlyProfit'),
             annualProfit: document.getElementById('annualProfit'),
@@ -540,6 +752,21 @@
             monthlyCard: document.getElementById('monthlyCard'),
             annualCard: document.getElementById('annualCard'),
             totalRow: document.getElementById('totalRow')
+        };
+
+        // Stamp Duty inputs
+        const stampDutyInputs = {
+            price: document.getElementById('stampDutyPrice'),
+            propertyType: document.getElementById('propertyType'),
+            buyerStatus: document.getElementById('buyerStatus')
+        };
+
+        const stampDutyResults = {
+            totalStampDuty: document.getElementById('totalStampDuty'),
+            effectiveRate: document.getElementById('effectiveRate'),
+            breakdown: document.getElementById('stampDutyBreakdown'),
+            rates: document.getElementById('stampDutyRates'),
+            rateTableTitle: document.getElementById('rateTableTitle')
         };
 
         function formatCurrency(amount) {
@@ -569,7 +796,132 @@
             return monthlyPayment;
         }
 
-        function updateCalculations() {
+        // Stamp Duty Rate Bands (April 2025)
+        const stampDutyBands = {
+            'main': [
+                { min: 0, max: 125000, rate: 0 },
+                { min: 125001, max: 250000, rate: 2 },
+                { min: 250001, max: 925000, rate: 5 },
+                { min: 925001, max: 1500000, rate: 10 },
+                { min: 1500001, max: Infinity, rate: 12 }
+            ],
+            'additional': [
+                { min: 0, max: 40000, rate: 0 },
+                { min: 40001, max: 125000, rate: 5 },
+                { min: 125001, max: 250000, rate: 7 },
+                { min: 250001, max: 925000, rate: 10 },
+                { min: 925001, max: 1500000, rate: 15 },
+                { min: 1500001, max: Infinity, rate: 17 }
+            ],
+            'first-time': [
+                { min: 0, max: 300000, rate: 0 },
+                { min: 300001, max: 500000, rate: 5 },
+                { min: 500001, max: 925000, rate: 5 }, // Standard rates apply above £500k
+                { min: 925001, max: 1500000, rate: 10 },
+                { min: 1500001, max: Infinity, rate: 12 }
+            ]
+        };
+
+        function calculateStampDuty(price, propertyType, isNonUKResident = false) {
+            const bands = propertyType === 'first-time' && price > 500000 ? 
+                stampDutyBands['main'] : stampDutyBands[propertyType];
+            
+            let totalTax = 0;
+            const breakdown = [];
+            
+            for (const band of bands) {
+                if (price > band.min - 1) {
+                    const taxableAmount = Math.min(price, band.max) - (band.min - 1);
+                    let bandRate = band.rate;
+                    
+                    // Add non-UK resident surcharge
+                    if (isNonUKResident && bandRate > 0) {
+                        bandRate += 2;
+                    }
+                    
+                    const bandTax = (taxableAmount * bandRate) / 100;
+                    totalTax += bandTax;
+                    
+                    if (taxableAmount > 0) {
+                        breakdown.push({
+                            range: band.max === Infinity ? 
+                                `£${(band.min).toLocaleString()}+` :
+                                `£${(band.min).toLocaleString()} - £${band.max.toLocaleString()}`,
+                            rate: bandRate,
+                            tax: bandTax,
+                            baseAmount: taxableAmount
+                        });
+                    }
+                    
+                    if (price <= band.max) break;
+                }
+            }
+            
+            return { total: totalTax, breakdown };
+        }
+
+        function updateStampDutyRateTable(propertyType, isNonUKResident) {
+            const bands = propertyType === 'first-time' && 
+                parseFloat(stampDutyInputs.price.value || 0) > 500000 ? 
+                stampDutyBands['main'] : stampDutyBands[propertyType];
+            
+            let html = '';
+            const titles = {
+                'main': 'Standard Residential Rates',
+                'additional': 'Additional Property / BTL Rates',
+                'first-time': 'First-Time Buyer Rates'
+            };
+            
+            stampDutyResults.rateTableTitle.textContent = titles[propertyType] + 
+                (isNonUKResident ? ' (+ 2% Non-UK Resident Surcharge)' : '');
+            
+            bands.forEach(band => {
+                let rate = band.rate;
+                if (isNonUKResident && rate > 0) rate += 2;
+                
+                html += `
+                    <div class="metric-row">
+                        <span class="label">${band.max === Infinity ? 
+                            `£${band.min.toLocaleString()}+` :
+                            `£${band.min.toLocaleString()} - £${band.max.toLocaleString()}`}</span>
+                        <span class="value">${rate}%</span>
+                    </div>
+                `;
+            });
+            
+            stampDutyResults.rates.innerHTML = html;
+        }
+
+        function updateStampDutyCalculation() {
+            const price = parseFloat(stampDutyInputs.price.value) || 0;
+            const propertyType = stampDutyInputs.propertyType.value;
+            const isNonUKResident = stampDutyInputs.buyerStatus.value === 'non-uk-resident';
+            
+            const calculation = calculateStampDuty(price, propertyType, isNonUKResident);
+            const effectiveRate = price > 0 ? (calculation.total / price) * 100 : 0;
+            
+            // Update results
+            stampDutyResults.totalStampDuty.textContent = formatCurrency(calculation.total);
+            stampDutyResults.effectiveRate.textContent = formatPercentage(effectiveRate);
+            
+            // Update breakdown
+            let breakdownHtml = '';
+            calculation.breakdown.forEach(band => {
+                breakdownHtml += `
+                    <div class="band-row">
+                        <span>${band.range}</span>
+                        <span>${band.rate}%</span>
+                        <span>${formatCurrency(band.tax)}</span>
+                    </div>
+                `;
+            });
+            stampDutyResults.breakdown.innerHTML = breakdownHtml;
+            
+            // Update rate table
+            updateStampDutyRateTable(propertyType, isNonUKResident);
+        }
+
+        function updateBTLCalculations() {
             // Get input values
             const purchasePrice = parseFloat(inputs.purchasePrice.value) || 0;
             const deposit = parseFloat(inputs.deposit.value) || 0;
@@ -655,24 +1007,20 @@
             });
         }
 
-        // Add event listeners to all inputs
+        // Add event listeners to all BTL inputs
         Object.values(inputs).forEach(input => {
-            input.addEventListener('input', updateCalculations);
+            input.addEventListener('input', updateBTLCalculations);
         });
 
-        // Initial calculation
-        updateCalculations();
+        // Add event listeners to stamp duty inputs
+        Object.values(stampDutyInputs).forEach(input => {
+            input.addEventListener('input', updateStampDutyCalculation);
+            input.addEventListener('change', updateStampDutyCalculation);
+        });
 
-        // Add Google Analytics tracking (replace with your tracking ID)
-        /*
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-        
-        ga('create', 'UA-XXXXXXX-X', 'auto');
-        ga('send', 'pageview');
-        */
+        // Initial calculations
+        updateBTLCalculations();
+        updateStampDutyCalculation();
     </script>
 </body>
 </html>
